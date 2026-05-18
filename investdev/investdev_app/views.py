@@ -28,7 +28,11 @@ menu = [
     {'title': 'Контакты', 'url_name': 'contact'},
     {'title': 'Вход', 'url_name': 'login'},
 ]
-
+category_db = [
+    {'id': 1, 'name' : 'Автоматизация расчета NPV в учебных кейсах'},
+    {'id': 2, 'name' : 'Построение сценариев'},
+    {'id': 3, 'name' : 'Интерфейс итогового отчета для защиты проекта'},
+]
 
 def index(request):
     data = {
