@@ -1,0 +1,56 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="hero">
+    <div class="container hero-grid">
+        <div>
+            <p class="eyebrow">Тема проекта</p>
+            <h1>Проектирование и разработка программного средства автоматизации процедур анализа и оценки эффективности инвестиционных проектов</h1>
+            <p class="lead">
+                Веб-приложение помогает рассчитывать ключевые показатели инвестиционной эффективности,
+                визуализировать результаты и формировать понятные выводы для принятия решений.
+            </p>
+            <div class="hero-actions">
+                <a class="btn btn-primary" href="{% url 'add_page' %}">Добавить расчет</a>
+                <a class="btn btn-ghost" href="{% url 'about' %}">О проекте</a>
+            </div>
+        </div>
+
+        <div class="hero-card">
+            <div class="metric">
+                <span class="metric-label">NPV</span>
+                <span class="metric-value positive">+1 250 000 ₽</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">IRR</span>
+                <span class="metric-value">18.4%</span>
+            </div>
+            <div class="metric">
+                <span class="metric-label">Срок окупаемости</span>
+                <span class="metric-value">3.5 года</span>
+            </div>
+            <img src="{% static 'investdev_app/images/hero-dashboard.svg' %}" alt="Дашборд показателей">
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2>Публикации и заметки по проекту</h2>
+        <ul class="post-list">
+            {% for p in posts %}
+            {% if p.is_published %}
+            <li>
+                <h3>{{ p.title }}</h3>
+                {% autoescape off%}
+                <p>{{ p.content|truncatewords:5 }}</p>
+                {% endautoescape%}
+                <a href="{% url 'post' p.id %}">Читать подробнее</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+{% endblock %}

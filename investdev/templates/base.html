@@ -1,0 +1,43 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title|default:"InvestDev" }}</title>
+    <link rel="stylesheet" href="{% static 'investdev_app/css/style.css' %}">
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-inner">
+        <a class="brand" href="{% url 'home' %}">
+            <img src="{% static 'investdev_app/images/logo.svg' %}" alt="Логотип InvestDev">
+            <span>InvestDev</span>
+        </a>
+
+        <nav class="main-nav" aria-label="Основная навигация">
+            <ul>
+                <li><a href="{% url 'home' %}">Главная</a></li>
+                {% for m in menu %}
+                <li><a href="{% url m.url_name %}">{{ m.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+    <div class="container footer-inner">
+        <p>
+            © 2026. Проектирование и разработка программного средства автоматизации процедур анализа
+            и оценки эффективности инвестиционных проектов.
+        </p>
+        <p class="muted">Учебный проект по дисциплине РПИ</p>
+    </div>
+</footer>
+</body>
+</html>
