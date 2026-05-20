@@ -1,5 +1,5 @@
 ﻿{% extends 'base.html' %}
-{% load static %}
+{% load static invesdev_tags %}
 
 {% block content %}
 <section class="hero">
@@ -37,18 +37,50 @@
 
 <section class="section">
     <div class="container">
-        <h2>Публикации и заметки по проекту</h2>
+        <h2>Наши работы</h2>
+        {% show_all_factors factor_selected %}
+
+        <p class="filter-title">Категории</p>
+        <ul class="category-list">
+            <li {% if category_selected == 0 %}class="selected"{% endif %}>
+                <a href="{% url 'home' %}">Все категории</a>
+            </li>
+            {% for category in cats %}
+            <li {% if category.id == category_selected %}class="selected"{% endif %}>
+                <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+            </li>
+            {% endfor %}
+        </ul>
         <ul class="post-list">
             {% for p in posts %}
-            {% if p.is_published %}
-            <li>
-                <h3>{{ p.title }}</h3>
-                {% autoescape off%}
-                <p>{{ p.content|truncatewords:5 }}</p>
-                {% endautoescape%}
-                <a href="{% url 'post' p.id %}">Читать подробнее</a>
+            <li class="post-card">
+                <a class="post-card-image-wrap" href="{{ p.get_absolute_url }}">
+                    {% if p.picture %}
+                    <img class="post-card-image" src="{{ p.picture.url }}" alt="{{ p.title }}">
+                    {% else %}
+                    <div class="post-card-image post-card-image-fallback">Нет изображения</div>
+                    {% endif %}
+                </a>
+
+                <div class="post-card-body">
+                    <h3>{{ p.title }}</h3>
+                    <p>{{ p.content|truncatewords:20 }}</p>
+                    <p class="post-card-category">{{ p.category.name }}</p>
+                    <ul class="post-factor-list">
+                        {% for factor in p.factors.all %}
+                        <li><a href="{{ factor.get_absolute_url }}">{{ factor.factor }}</a></li>
+                        {% endfor %}
+                    </ul>
+                    <a href="{{ p.get_absolute_url }}">Читать подробнее</a>
+                </div>
             </li>
-            {% endif %}
+            {% empty %}
+            <li class="post-card post-card-empty">
+                <div class="post-card-body">
+                    <h3>Публикаций пока нет</h3>
+                    <p>Для выбранной категории записи еще не добавлены.</p>
+                </div>
+            </li>
             {% endfor %}
         </ul>
     </div>

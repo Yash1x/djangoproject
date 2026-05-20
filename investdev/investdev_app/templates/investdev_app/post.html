@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <article class="post-page">
+            <header class="post-page-header">
+                <h1>{{ post.title }}</h1>
+                <p class="post-meta">
+                    Публикация от {{ post.time_create|date:"d.m.Y" }}
+                </p>
+                <ul class="post-factor-list">
+                    {% for factor in post.factors.all %}
+                    <li><a href="{{ factor.get_absolute_url }}">{{ factor.factor }}</a></li>
+                    {% endfor %}
+                </ul>
+            </header>
+
+            {% if post.picture %}
+            <div class="post-page-image-wrap">
+                <img class="post-page-image" src="{{ post.picture.url }}" alt="{{ post.title }}">
+            </div>
+            {% endif %}
+
+            <div class="post-page-content">
+                {{ post.content|linebreaks }}
+            </div>
+        </article>
+    </div>
+</section>
+{% endblock %}

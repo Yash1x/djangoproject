@@ -1,0 +1,214 @@
+[
+{
+  "model": "investdev_app.publication",
+  "pk": 1,
+  "fields": {
+    "title": "Газпром",
+    "content": "ПАО «Газпром» — крупнейшая российская энергетическая компания. В рамках инвестиционного анализа оцениваются капитальные затраты, денежные потоки от экспортных и внутренних проектов, а также срок окупаемости.",
+    "slug": "gazprom",
+    "time_create": "2026-05-20T16:15:06.959Z",
+    "time_update": "2026-05-20T16:33:05.824Z",
+    "is_published": true,
+    "picture": "publications/2026/05/1.png",
+    "category": 2,
+    "passport": 1,
+    "factors": [
+      1,
+      4,
+      5,
+      6
+    ]
+  }
+},
+{
+  "model": "investdev_app.publication",
+  "pk": 2,
+  "fields": {
+    "title": "ВТБ",
+    "content": "Банк ВТБ — один из ключевых игроков банковского сектора РФ. Для кейса по РПИ рассматривается инвестиционный проект по цифровизации кредитных процессов с расчётом NPV, IRR и чувствительности к ставке дисконтирования.",
+    "slug": "vtb",
+    "time_create": "2026-05-20T16:37:37.679Z",
+    "time_update": "2026-05-20T16:37:37.679Z",
+    "is_published": true,
+    "picture": "publications/2026/05/VTB_Logo_2018.svg.png",
+    "category": 2,
+    "passport": 2,
+    "factors": [
+      2,
+      3,
+      5,
+      6
+    ]
+  }
+},
+{
+  "model": "investdev_app.publication",
+  "pk": 3,
+  "fields": {
+    "title": "VK",
+    "content": "VK — технологическая компания, развивающая экосистему цифровых сервисов. В проекте моделируется запуск нового продукта: анализируются инвестиции в разработку, маркетинг, прогноз выручки и точка безубыточности.",
+    "slug": "vk",
+    "time_create": "2026-05-20T16:37:42.996Z",
+    "time_update": "2026-05-20T16:37:42.996Z",
+    "is_published": true,
+    "picture": "publications/2026/05/VK_Compact_Logo_2021-present.svg.png",
+    "category": 3,
+    "passport": 3,
+    "factors": [
+      1,
+      3,
+      5,
+      6
+    ]
+  }
+},
+{
+  "model": "investdev_app.publication",
+  "pk": 4,
+  "fields": {
+    "title": "Ozon",
+    "content": "Ozon — один из крупнейших маркетплейсов России. В учебном кейсе оценивается эффективность инвестиций в расширение логистической инфраструктуры: срок окупаемости, сценарный анализ и устойчивость денежного потока.",
+    "slug": "ozon",
+    "time_create": "2026-05-20T16:37:47.010Z",
+    "time_update": "2026-05-20T16:37:47.010Z",
+    "is_published": true,
+    "picture": "publications/2026/05/channels4_profile.jpg",
+    "category": 4,
+    "passport": 4,
+    "factors": [
+      1,
+      2,
+      4,
+      5
+    ]
+  }
+},
+{
+  "model": "investdev_app.category",
+  "pk": 1,
+  "fields": {
+    "name": "Бигтех",
+    "slug": "bigteh"
+  }
+},
+{
+  "model": "investdev_app.category",
+  "pk": 2,
+  "fields": {
+    "name": "Банк",
+    "slug": "bank"
+  }
+},
+{
+  "model": "investdev_app.category",
+  "pk": 3,
+  "fields": {
+    "name": "Мессенджер",
+    "slug": "messeger"
+  }
+},
+{
+  "model": "investdev_app.category",
+  "pk": 4,
+  "fields": {
+    "name": "Маркетплейс",
+    "slug": "marketplace"
+  }
+},
+{
+  "model": "investdev_app.category",
+  "pk": 5,
+  "fields": {
+    "name": "Стартап",
+    "slug": "startup"
+  }
+},
+{
+  "model": "investdev_app.investmentfactor",
+  "pk": 1,
+  "fields": {
+    "factor": "Капитальные затраты (CAPEX)",
+    "slug": "capex"
+  }
+},
+{
+  "model": "investdev_app.investmentfactor",
+  "pk": 2,
+  "fields": {
+    "factor": "Чистая приведенная стоимость (NPV)",
+    "slug": "npv"
+  }
+},
+{
+  "model": "investdev_app.investmentfactor",
+  "pk": 3,
+  "fields": {
+    "factor": "Внутренняя норма доходности (IRR)",
+    "slug": "irr"
+  }
+},
+{
+  "model": "investdev_app.investmentfactor",
+  "pk": 4,
+  "fields": {
+    "factor": "Срок окупаемости",
+    "slug": "payback-period"
+  }
+},
+{
+  "model": "investdev_app.investmentfactor",
+  "pk": 5,
+  "fields": {
+    "factor": "Денежный поток",
+    "slug": "cash-flow"
+  }
+},
+{
+  "model": "investdev_app.investmentfactor",
+  "pk": 6,
+  "fields": {
+    "factor": "Риск проекта",
+    "slug": "project-risk"
+  }
+},
+{
+  "model": "investdev_app.projectpassport",
+  "pk": 1,
+  "fields": {
+    "project_code": "GZP-2026-01",
+    "initiator": "ПАО «Газпром»",
+    "budget_mln_rub": 18000,
+    "horizon_years": 7
+  }
+},
+{
+  "model": "investdev_app.projectpassport",
+  "pk": 2,
+  "fields": {
+    "project_code": "VTB-2026-01",
+    "initiator": "Банк ВТБ",
+    "budget_mln_rub": 9200,
+    "horizon_years": 5
+  }
+},
+{
+  "model": "investdev_app.projectpassport",
+  "pk": 3,
+  "fields": {
+    "project_code": "VK-2026-01",
+    "initiator": "VK",
+    "budget_mln_rub": 6400,
+    "horizon_years": 4
+  }
+},
+{
+  "model": "investdev_app.projectpassport",
+  "pk": 4,
+  "fields": {
+    "project_code": "OZON-2026-01",
+    "initiator": "Ozon",
+    "budget_mln_rub": 12500,
+    "horizon_years": 6
+  }
+}
+]

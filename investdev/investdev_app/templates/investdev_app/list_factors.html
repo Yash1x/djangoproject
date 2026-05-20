@@ -1,0 +1,13 @@
+{% if factors %}
+<p class="filter-title">Факторы</p>
+<ul class="factor-list">
+    <li {% if factor_selected == 0 %}class="selected"{% endif %}>
+        <a href="{% url 'home' %}">Все факторы</a>
+    </li>
+    {% for factor in factors %}
+    <li {% if factor.id == factor_selected %}class="selected"{% endif %}>
+        <a href="{{ factor.get_absolute_url }}">{{ factor.factor }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}

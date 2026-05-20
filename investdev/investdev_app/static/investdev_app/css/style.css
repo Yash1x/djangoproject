@@ -185,12 +185,85 @@ h1 {
   font-size: 1.5rem;
 }
 
+.filter-title {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.factor-list {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.factor-list li a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  color: var(--text-muted);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.03);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.factor-list li a:hover {
+  color: var(--text);
+  border-color: rgba(41, 179, 126, 0.7);
+}
+
+.factor-list li.selected a {
+  color: #fff;
+  border-color: rgba(41, 179, 126, 0.9);
+  background: linear-gradient(120deg, #2ba575, #1c7e58);
+}
+
+.category-list {
+  list-style: none;
+  margin: 0 0 18px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.category-list li a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  color: var(--text-muted);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.03);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.category-list li a:hover {
+  color: var(--text);
+  border-color: rgba(60, 139, 255, 0.6);
+}
+
+.category-list li.selected a {
+  color: #fff;
+  border-color: rgba(60, 139, 255, 0.9);
+  background: linear-gradient(120deg, var(--accent), #286dd6);
+}
+
 .post-list {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 12px;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .post-list li {
@@ -214,6 +287,135 @@ h1 {
   color: var(--accent);
   text-decoration: none;
   font-weight: 600;
+}
+
+.post-card {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.post-card-image-wrap {
+  display: block;
+  width: 100%;
+}
+
+.post-card-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(8, 12, 22, 0.9);
+}
+
+.post-card-image-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.post-card-body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.post-card-body h3 {
+  margin: 0;
+}
+
+.post-card-body p {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.post-card-category {
+  font-size: 0.86rem;
+  color: var(--accent-2);
+}
+
+.post-factor-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-factor-list li a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(41, 179, 126, 0.45);
+  color: #c7f3e2;
+  background: rgba(41, 179, 126, 0.12);
+  font-size: 0.82rem;
+  text-decoration: none;
+}
+
+.post-factor-list li a:hover {
+  color: #fff;
+  border-color: rgba(41, 179, 126, 0.8);
+  background: rgba(41, 179, 126, 0.2);
+}
+
+.post-card-empty {
+  grid-column: 1 / -1;
+}
+
+.post-page {
+  width: min(920px, 100%);
+  margin: 0 auto;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(24, 37, 64, 0.9), rgba(16, 28, 49, 0.92));
+  overflow: hidden;
+}
+
+.post-page-header {
+  padding: 26px 28px 12px;
+}
+
+.post-page-header h1 {
+  font-size: clamp(1.8rem, 1.4rem + 1.2vw, 2.45rem);
+}
+
+.post-meta {
+  margin-top: 8px;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+
+.post-page-image-wrap {
+  padding: 0 28px 20px;
+}
+
+.post-page-image {
+  width: 100%;
+  max-height: 460px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #0f1a2f;
+}
+
+.post-page-content {
+  padding: 0 28px 30px;
+  color: var(--text);
+  font-size: 1.12rem;
+  line-height: 1.68;
+}
+
+.post-page-content p {
+  margin: 0 0 14px;
 }
 
 .site-footer {
@@ -240,6 +442,10 @@ h1 {
   .hero-grid {
     grid-template-columns: 1fr;
   }
+
+  .post-list {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 700px) {
@@ -252,5 +458,22 @@ h1 {
   .main-nav ul {
     flex-wrap: wrap;
     gap: 10px;
+  }
+
+  .post-page-header {
+    padding: 18px 16px 10px;
+  }
+
+  .post-page-image-wrap {
+    padding: 0 16px 14px;
+  }
+
+  .post-page-image {
+    max-height: 300px;
+  }
+
+  .post-page-content {
+    padding: 0 16px 20px;
+    font-size: 1rem;
   }
 }
