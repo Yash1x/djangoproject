@@ -1,6 +1,6 @@
 # Быстрый старт на новом компьютере
 
-## 1. Что должно быть установлено
+## 1. Требования
 - `Git`
 - `Python 3.11+`
 
@@ -11,14 +11,14 @@ git --version
 python --version
 ```
 
-## 2. Клонирование проекта
+## 2. Клонирование
 
 ```powershell
 git clone git@github.com:Yash1x/djangoproject.git
 cd djangoproject
 ```
 
-Если работаешь по HTTPS:
+Если используешь HTTPS:
 
 ```powershell
 git clone https://github.com/Yash1x/djangoproject.git
@@ -34,18 +34,27 @@ python -m pip install --upgrade pip
 pip install django==5.2.14
 ```
 
-## 4. Запуск проекта Django
+## 4. Первый запуск проекта с готовыми данными
 
 ```powershell
 cd investdev
-python manage.py migrate
+.\bootstrap_local.ps1
 python manage.py runserver
 ```
 
 Открыть в браузере:
 - `http://127.0.0.1:8000/`
 
-## 5. Полезные команды
+## 5. Что делает `bootstrap_local.ps1`
+- применяет миграции (`migrate`)
+- загружает данные публикаций/категорий/факторов/паспортов из fixture
+- выполняет `python manage.py check`
+
+## 6. Важно про медиа
+- Медиа-файлы публикаций уже лежат в репозитории в `investdev/media/publications/...`
+- Поэтому после `git pull` картинки на карточках и в постах должны появиться без ручного копирования
+
+## 7. Полезные команды
 
 Проверка проекта:
 
@@ -61,36 +70,3 @@ python manage.py createsuperuser
 
 Админка:
 - `http://127.0.0.1:8000/admin/`
-
-## 6. Частые проблемы и фиксы
-
-`error: src refspec main does not match any`
-- Локальная ветка называется `master`, а пушишь `main`.
-- Решение:
-
-```powershell
-git branch -M main
-git push -u origin main
-```
-
-`You have unapplied migrations`
-- Не применены миграции.
-- Решение:
-
-```powershell
-python manage.py migrate
-```
-
-CSS/изображения не подгружаются в дев-режиме
-- Проверь, что запускаешь из папки `investdev`.
-- Проверь, что в `settings.py` стоит `DEBUG = True`.
-
-## 7. Рабочий цикл
-
-```powershell
-git pull
-.\.venv\Scripts\activate
-cd investdev
-python manage.py runserver
-```
-

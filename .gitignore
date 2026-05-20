@@ -13,6 +13,10 @@ env/
 *.sqlite3
 staticfiles/
 media/
+!investdev/media/
+investdev/media/*
+!investdev/media/publications/
+!investdev/media/publications/**
 
 # IDE / Editor
 .idea/
