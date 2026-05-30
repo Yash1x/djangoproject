@@ -14,8 +14,8 @@ class Publication(models.Model):
     time_create = models.DateTimeField(auto_now_add=True, verbose_name="Время создания")
     time_update = models.DateTimeField(auto_now=True, verbose_name="Время обновления")
     is_published = models.BooleanField(
-        choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
-        default=Status.DRAFT,
+        choices=((False, "Черновик"), (True, "Опубликовано")),
+        default=False,
         verbose_name="Статус публикации",
     )
     picture = models.ImageField(upload_to="publications/%Y/%m", blank=True, verbose_name="Картинка")
@@ -42,7 +42,15 @@ class Publication(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)
+            base_slug = slugify(self.title)
+            if not base_slug:
+                base_slug = "project"
+            unique_slug = base_slug
+            index = 1
+            while Publication.objects.filter(slug=unique_slug).exclude(pk=self.pk).exists():
+                index += 1
+                unique_slug = f"{base_slug}-{index}"
+            self.slug = unique_slug
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -54,7 +62,6 @@ class Publication(models.Model):
     class Meta:
         verbose_name = "Публикация"
         verbose_name_plural = "Публикации"
-
 
 
 class Category(models.Model):
