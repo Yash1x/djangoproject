@@ -1,4 +1,4 @@
-﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
 <section class="section">
@@ -9,6 +9,60 @@
             Здесь мы переносим статический сайт в полнофункциональное веб-приложение с шаблонами,
             маршрутизацией, моделями и админ-панелью.
         </p>
+
+        <h2 style="margin-top:40px">Наш адрес на карте</h2>
+        <div id="map" style="width:100%;max-width:800px;height:400px;border-radius:8px"></div>
+
+        <h2 style="margin-top:40px">AI-помощник</h2>
+        <form id="gpt-form" style="max-width:800px">
+            {% csrf_token %}
+            <textarea id="gpt-question" rows="3" placeholder="Задайте вопрос..."
+                      style="width:100%;padding:10px;border-radius:6px;border:1px solid #444;background:#1e1e1e;color:#eee"></textarea>
+            <p><button type="submit" style="padding:8px 16px;border-radius:6px;border:none;background:#5a8dee;color:#fff;cursor:pointer">Спросить</button></p>
+        </form>
+        <div id="gpt-answer" style="max-width:800px;margin-top:15px;padding:15px;background:#1e1e1e;border-radius:6px;min-height:50px;white-space:pre-wrap"></div>
     </div>
 </section>
+
+<script src="https://api-maps.yandex.ru/2.1/?apikey={{ yandex_maps_api_key }}&lang=ru_RU"></script>
+<script>
+    // === Карта ===
+    ymaps.ready(function () {
+        // Координаты — Казань, ул. Вишневского 12.
+        var coords = [55.785326, 49.149857];
+        var myMap = new ymaps.Map("map", {
+            center: coords,
+            zoom: 16,
+            controls: ['zoomControl', 'fullscreenControl']
+        });
+        var placemark = new ymaps.Placemark(coords, {
+            balloonContent: 'Дом',
+            hintContent: 'Казань, ул. Вишневского, 12'
+        }, {
+            preset: 'islands#redDotIcon'
+        });
+        myMap.geoObjects.add(placemark);
+    });
+
+    // === GPT ===
+    document.getElementById('gpt-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        var q = document.getElementById('gpt-question').value.trim();
+        var out = document.getElementById('gpt-answer');
+        if (!q) { out.textContent = 'Введите вопрос.'; return; }
+        out.textContent = 'Думаю...';
+        var csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        try {
+            var resp = await fetch("{% url 'ask_gpt' %}", {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-CSRFToken': csrf},
+                body: JSON.stringify({question: q})
+            });
+            var data = await resp.json();
+            out.textContent = data.answer || ('Ошибка: ' + (data.error || resp.status));
+        } catch (err) {
+            out.textContent = 'Сетевая ошибка: ' + err;
+        }
+    });
+</script>
 {% endblock %}

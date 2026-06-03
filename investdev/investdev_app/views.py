@@ -31,13 +31,72 @@ def index(request):
 
 
 def about(request):
+    from django.conf import settings
     return render(
         request,
         "investdev_app/about.html",
         {
             "title": "О проекте",
+            "yandex_maps_api_key": settings.YANDEX_MAPS_API_KEY,
         },
     )
+
+
+def ask_gpt(request):
+
+    import json
+    import urllib.request
+    import urllib.error
+    from django.conf import settings
+    from django.http import JsonResponse
+
+    if request.method != "POST":
+        return JsonResponse({"error": "POST only"}, status=405)
+    try:
+        body = json.loads(request.body.decode("utf-8"))
+        question = (body.get("question") or "").strip()
+    except Exception:
+        return JsonResponse({"error": "bad JSON"}, status=400)
+    if not question:
+        return JsonResponse({"error": "пустой вопрос"}, status=400)
+
+    payload = {
+        "model": settings.OPENROUTER_MODEL,
+        "messages": [
+            {"role": "system", "content": "Ты — помощник на сайте InvestDev. Отвечай кратко и по делу."},
+            {"role": "user", "content": question},
+        ],
+    }
+    import time
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {settings.OPENROUTER_API_KEY}",
+        "HTTP-Referer": "http://127.0.0.1:8000",
+        "X-Title": "InvestDev",
+    }
+    last_err = None
+    for attempt in range(3):
+        req = urllib.request.Request(
+            "https://openrouter.ai/api/v1/chat/completions",
+            data=json.dumps(payload).encode("utf-8"),
+            headers=headers,
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+            answer = data["choices"][0]["message"]["content"]
+            return JsonResponse({"answer": answer})
+        except urllib.error.HTTPError as e:
+            text = e.read().decode("utf-8", "ignore")
+            last_err = f"OpenRouter HTTP {e.code}: {text}"
+            if e.code == 429:
+                time.sleep(1.5)
+                continue
+            return JsonResponse({"error": last_err}, status=502)
+        except Exception as e:
+            return JsonResponse({"error": f"{type(e).__name__}: {e}"}, status=502)
+    return JsonResponse({"error": last_err or "rate limited"}, status=502)
 
 
 def post(request, post_slug):

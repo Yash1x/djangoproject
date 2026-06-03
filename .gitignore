@@ -10,13 +10,19 @@ venv/
 env/
 
 # Django
-*.sqlite3
+# db.sqlite3 коммитится — учебный проект, удобно иметь готовую БД на любой машине
+*.sqlite3-journal
+*.sqlite3.bak
+*.sqlite3-wal
+*.sqlite3-shm
 staticfiles/
 media/
 !investdev/media/
 investdev/media/*
 !investdev/media/publications/
 !investdev/media/publications/**
+!investdev/media/users/
+!investdev/media/users/**
 
 # IDE / Editor
 .idea/
@@ -25,6 +31,10 @@ investdev/media/*
 # OS
 .DS_Store
 Thumbs.db
+
+# Secrets
+.env
+**/local_settings.py
 
 # Tool caches
 .pytest_cache/

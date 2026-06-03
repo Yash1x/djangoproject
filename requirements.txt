@@ -1,0 +1,5 @@
+Django==5.2.14
+Pillow==12.2.0
+python-slugify==8.0.4
+truststore==0.10.4
+certifi==2026.5.20
