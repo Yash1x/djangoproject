@@ -1,16 +1,14 @@
-from django.http import HttpResponse, HttpResponseNotFound
-from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse_lazy
 from django.utils import timezone
+from django.views.generic import CreateView, UpdateView
 
 from investdev_app.forms import AddPageForm
 from investdev_app.models import Category, InvestmentFactor, ProjectPassport, Publication
+from investdev_app.utils import DataMixin
 
-menu = [
-    {"title": "О проекте", "url_name": "about"},
-    {"title": "Добавить расчет", "url_name": "add_page"},
-    {"title": "Контакты", "url_name": "contact"},
-    {"title": "Вход", "url_name": "login"},
-]
 
 
 def index(request):
@@ -23,7 +21,6 @@ def index(request):
     factors = InvestmentFactor.objects.all()
     data = {
         "title": "InvestDev — главная",
-        "menu": menu,
         "posts": posts,
         "cats": categories,
         "factors": factors,
@@ -39,7 +36,6 @@ def about(request):
         "investdev_app/about.html",
         {
             "title": "О проекте",
-            "menu": menu,
         },
     )
 
@@ -53,46 +49,52 @@ def post(request, post_slug):
         "title": current_post.title,
         "content": current_post.content,
         "picture": current_post.picture,
-        "menu": menu,
         "post": current_post,
     }
     return render(request, "investdev_app/post.html", data)
 
+class AddPage(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, CreateView):
+    form_class = AddPageForm
+    template_name = "investdev_app/add_page.html"
+    success_url = reverse_lazy("home")
+    title_page = "Добавление проекта"
+    permission_required = "investdev_app.add_publication"
 
-def addpage(request):
-    if request.method == "POST":
-        form = AddPageForm(request.POST, request.FILES)
-        if form.is_valid():
-            try:
-                publication = form.save()
+    def form_valid(self, form):
+        try:
+            publication = form.save()
 
-                date_suffix = timezone.now().strftime("%Y%m%d")
-                base_code = f"{publication.slug.upper()}-{date_suffix}"
-                project_code = base_code
-                counter = 1
-                while ProjectPassport.objects.filter(project_code=project_code).exists():
-                    counter += 1
-                    project_code = f"{base_code}-{counter}"
+            date_suffix = timezone.now().strftime("%Y%m%d")
+            base_code = f"{publication.slug.upper()}-{date_suffix}"
+            project_code = base_code
+            counter = 1
+            while ProjectPassport.objects.filter(project_code=project_code).exists():
+                counter += 1
+                project_code = f"{base_code}-{counter}"
 
-                passport = ProjectPassport.objects.create(
-                    project_code=project_code,
-                    initiator=publication.title,
-                )
-                publication.passport = passport
-                publication.save(update_fields=["passport"])
+            passport = ProjectPassport.objects.create(
+                project_code=project_code,
+                initiator=publication.title,
+            )
+            publication.passport = passport
+            publication.save(update_fields=["passport"])
 
-                return redirect("home")
-            except Exception:
-                form.add_error(None, "Ошибка добавления проекта")
-    else:
-        form = AddPageForm()
+            self.object = publication
+            return HttpResponseRedirect(self.get_success_url())
+        except Exception:
+            form.add_error(None, "Ошибка добавления проекта")
+            return self.form_invalid(form)
 
-    data = {
-        "title": "Добавление проекта",
-        "menu": menu,
-        "form": form,
-    }
-    return render(request, "investdev_app/add_page.html", data)
+
+class UpdatePage(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, UpdateView):
+    model = Publication
+    fields = ["title", "content", "picture", "is_published", "category", "factors"]
+    template_name = "investdev_app/add_page.html"
+    success_url = reverse_lazy("home")
+    title_page = "Редактирование проекта"
+    slug_url_kwarg = "slug"
+    slug_field = "slug"
+    permission_required = "investdev_app.change_publication"
 
 
 def contact(request):
@@ -118,7 +120,6 @@ def category(request, category_slug):
     factors = InvestmentFactor.objects.all()
     data = {
         "title": f"Работы: {current_category.name}",
-        "menu": menu,
         "posts": posts,
         "cats": categories,
         "factors": factors,
@@ -140,7 +141,7 @@ def factor(request, factor_slug):
     factors = InvestmentFactor.objects.all()
     data = {
         "title": f"Фактор: {current_factor.factor}",
-        "menu": menu,
+
         "posts": posts,
         "cats": categories,
         "factors": factors,

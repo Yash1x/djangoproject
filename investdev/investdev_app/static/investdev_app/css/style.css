@@ -75,6 +75,25 @@ body {
 
 .main-nav a:hover { color: var(--text); }
 
+.logout-form {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+.logout-link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  cursor: pointer;
+}
+
+.logout-link:hover {
+  color: var(--text);
+}
+
 .hero {
   padding: 78px 0 56px;
 }

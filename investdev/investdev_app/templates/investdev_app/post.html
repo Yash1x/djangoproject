@@ -25,6 +25,10 @@
             <div class="post-page-content">
                 {{ post.content|linebreaks }}
             </div>
+
+            {% if perms.investdev_app.change_publication %}
+            <p><a class="btn-edit" href="{% url 'edit_page' post.slug %}">Редактировать</a></p>
+            {% endif %}
         </article>
     </div>
 </section>
